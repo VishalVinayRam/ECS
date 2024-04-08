@@ -2,7 +2,8 @@ import * as ec2 from 'aws-cdk-lib/aws-ec2';
 import * as elbv2 from 'aws-cdk-lib/aws-elasticloadbalancingv2';
 import * as cdk from 'aws-cdk-lib';
 import { Cluster, ContainerImage, Ec2Service, Ec2TaskDefinition } from 'aws-cdk-lib/aws-ecs';
-import { Credentials, DatabaseInstance, DatabaseInstanceEngine, StorageType } from 'aws-cdk-lib/aws-rds';
+import { DatabaseInstance, DatabaseInstanceEngine } from 'aws-cdk-lib/aws-rds';
+import { AutoScalingGroup } from 'aws-cdk-lib/aws-autoscaling';
 
 const app = new cdk.App();
 const stack = new cdk.Stack(app, 'MyWebApp');
@@ -23,16 +24,28 @@ const vpc = new ec2.Vpc(stack, 'webappVpc', {
   ]
 });
 
-// Create RDS instance
-const rdsInstance = new DatabaseInstance(stack, 'webappDatabase', {
-  engine: DatabaseInstanceEngine.MYSQL, // Change engine type as needed
+// Create EBS volume
+const ebsVolume = ec2.BlockDeviceVolume.ebs(30, {
+  deleteOnTermination: true, // Change as needed
+});
+
+// Create launch template for Auto Scaling Group
+const launchTemplate = new ec2.LaunchTemplate(stack, 'webappLaunchTemplate', {
+  blockDevices: [{
+    deviceName: '/dev/xvdf', // Change device name as needed
+    volume: ebsVolume,
+  }],
   instanceType: ec2.InstanceType.of(ec2.InstanceClass.BURSTABLE3, ec2.InstanceSize.MICRO),
+  machineImage: ec2.MachineImage.latestAmazonLinux(),
+
+});
+
+const autoScalingGroup = new AutoScalingGroup(stack, 'webappASG', {
   vpc,
-  multiAz: false, // Set to true for Multi-AZ deployment
-  allocatedStorage: 20, // Storage size in GB
-  storageType: StorageType.GP2,
-  removalPolicy: cdk.RemovalPolicy.DESTROY, // Note: This destroys the RDS instance when stack is deleted. Use with caution.
-  credentials: Credentials.fromGeneratedSecret('admin'), // Credentials for master user
+  desiredCapacity: 1,
+  maxCapacity: 5,
+  minCapacity: 1,
+  launchTemplate,
 });
 
 const cluster = new Cluster(stack, 'webappCluster', { vpc });
@@ -40,6 +53,7 @@ cluster.addCapacity('AutoScalingGroups', {
   instanceType: ec2.InstanceType.of(ec2.InstanceClass.BURSTABLE3, ec2.InstanceSize.MICRO),
   desiredCapacity: 1
 });
+
 
 const taskDefinition = new Ec2TaskDefinition(stack, 'webappTaskDef');
 const container = taskDefinition.addContainer('webapp', {
@@ -83,6 +97,7 @@ new cdk.CfnOutput(stack, 'webappALBDNS', {
 });
 
 app.synth();
+
 // S3 bucket source 
 
 
