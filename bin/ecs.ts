@@ -1,7 +1,8 @@
-import * as ecs from 'aws-cdk-lib/aws-ecs';
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
 import * as elbv2 from 'aws-cdk-lib/aws-elasticloadbalancingv2';
 import * as cdk from 'aws-cdk-lib';
+import { Cluster, ContainerImage, Ec2Service, Ec2TaskDefinition } from 'aws-cdk-lib/aws-ecs';
+import { Credentials, DatabaseInstance, DatabaseInstanceEngine, StorageType } from 'aws-cdk-lib/aws-rds';
 
 const app = new cdk.App();
 const stack = new cdk.Stack(app, 'MyWebApp');
@@ -13,28 +14,45 @@ const vpc = new ec2.Vpc(stack, 'webappVpc', {
       cidrMask: 24,
       name: 'public',
       subnetType: ec2.SubnetType.PUBLIC,
+    },
+    {
+      cidrMask: 24,
+      name: 'private',
+      subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS,
     }
   ]
 });
 
-const cluster = new ecs.Cluster(stack, 'webappCluster', { vpc });
+// Create RDS instance
+const rdsInstance = new DatabaseInstance(stack, 'webappDatabase', {
+  engine: DatabaseInstanceEngine.MYSQL, // Change engine type as needed
+  instanceType: ec2.InstanceType.of(ec2.InstanceClass.BURSTABLE3, ec2.InstanceSize.MICRO),
+  vpc,
+  multiAz: false, // Set to true for Multi-AZ deployment
+  allocatedStorage: 20, // Storage size in GB
+  storageType: StorageType.GP2,
+  removalPolicy: cdk.RemovalPolicy.DESTROY, // Note: This destroys the RDS instance when stack is deleted. Use with caution.
+  credentials: Credentials.fromGeneratedSecret('admin'), // Credentials for master user
+});
+
+const cluster = new Cluster(stack, 'webappCluster', { vpc });
 cluster.addCapacity('AutoScalingGroups', {
   instanceType: ec2.InstanceType.of(ec2.InstanceClass.BURSTABLE3, ec2.InstanceSize.MICRO),
   desiredCapacity: 1
 });
 
-const taskDefinition = new ecs.Ec2TaskDefinition(stack, 'webappTaskDef');
+const taskDefinition = new Ec2TaskDefinition(stack, 'webappTaskDef');
 const container = taskDefinition.addContainer('webapp', {
-  image: ecs.ContainerImage.fromRegistry("amazon/amazon-ecs-sample"),
+  image: ContainerImage.fromRegistry("public.ecr.aws/z9z6i7v1/vishallecr1:latest"),
   memoryLimitMiB: 256,
 });
 container.addPortMappings({
   containerPort: 80,
   hostPort: 0, 
-  protocol: ecs.Protocol.TCP
+  protocol: cdk.aws_ecs.Protocol.TCP
 });
 
-const service = new ecs.Ec2Service(stack, "webappService", {
+const service = new Ec2Service(stack, "webappService", {
   cluster,
   taskDefinition,
   desiredCount: 4
@@ -65,7 +83,6 @@ new cdk.CfnOutput(stack, 'webappALBDNS', {
 });
 
 app.synth();
-
 // S3 bucket source 
 
 
