@@ -1,9 +1,9 @@
+import * as ecs from 'aws-cdk-lib/aws-ecs';
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
 import * as elbv2 from 'aws-cdk-lib/aws-elasticloadbalancingv2';
 import * as cdk from 'aws-cdk-lib';
-import { Cluster, ContainerImage, Ec2Service, Ec2TaskDefinition } from 'aws-cdk-lib/aws-ecs';
-import { DatabaseInstance, DatabaseInstanceEngine } from 'aws-cdk-lib/aws-rds';
-import { AutoScalingGroup } from 'aws-cdk-lib/aws-autoscaling';
+import * as autoscaling from 'aws-cdk-lib/aws-autoscaling';
+import * as cloudwatch from 'aws-cdk-lib/aws-cloudwatch';
 
 const app = new cdk.App();
 const stack = new cdk.Stack(app, 'MyWebApp');
@@ -15,11 +15,6 @@ const vpc = new ec2.Vpc(stack, 'webappVpc', {
       cidrMask: 24,
       name: 'public',
       subnetType: ec2.SubnetType.PUBLIC,
-    },
-    {
-      cidrMask: 24,
-      name: 'private',
-      subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS,
     }
   ]
 });
@@ -29,6 +24,8 @@ const ebsVolume = ec2.BlockDeviceVolume.ebs(30, {
   deleteOnTermination: true, // Change as needed
 });
 
+const cluster = new ecs.Cluster(stack, 'webappCluster', { vpc });
+
 // Create launch template for Auto Scaling Group
 const launchTemplate = new ec2.LaunchTemplate(stack, 'webappLaunchTemplate', {
   blockDevices: [{
@@ -36,37 +33,26 @@ const launchTemplate = new ec2.LaunchTemplate(stack, 'webappLaunchTemplate', {
     volume: ebsVolume,
   }],
   instanceType: ec2.InstanceType.of(ec2.InstanceClass.BURSTABLE3, ec2.InstanceSize.MICRO),
-  machineImage: ec2.MachineImage.latestAmazonLinux(),
-
+  machineImage: ec2.MachineImage.latestAmazonLinux()
 });
 
-const autoScalingGroup = new AutoScalingGroup(stack, 'webappASG', {
-  vpc,
-  desiredCapacity: 1,
-  maxCapacity: 5,
-  minCapacity: 1,
-  launchTemplate,
-});
-
-const cluster = new Cluster(stack, 'webappCluster', { vpc });
 cluster.addCapacity('AutoScalingGroups', {
   instanceType: ec2.InstanceType.of(ec2.InstanceClass.BURSTABLE3, ec2.InstanceSize.MICRO),
-  desiredCapacity: 1
+  desiredCapacity: 1,
 });
 
-
-const taskDefinition = new Ec2TaskDefinition(stack, 'webappTaskDef');
+const taskDefinition = new ecs.Ec2TaskDefinition(stack, 'webappTaskDef');
 const container = taskDefinition.addContainer('webapp', {
-  image: ContainerImage.fromRegistry("public.ecr.aws/z9z6i7v1/vishallecr1:latest"),
+  image: ecs.ContainerImage.fromRegistry("amazon/amazon-ecs-sample"),
   memoryLimitMiB: 256,
 });
 container.addPortMappings({
   containerPort: 80,
-  hostPort: 0, 
-  protocol: cdk.aws_ecs.Protocol.TCP
+  hostPort: 0,
+  protocol: ecs.Protocol.TCP
 });
 
-const service = new Ec2Service(stack, "webappService", {
+const service = new ecs.Ec2Service(stack, "webappService", {
   cluster,
   taskDefinition,
   desiredCount: 4
@@ -83,7 +69,7 @@ const listener = lb.addListener('webappListener', {
 });
 
 listener.addTargets('webappTarget', {
-  port: 80, 
+  port: 80,
   targets: [service],
   healthCheck: {
     interval: cdk.Duration.seconds(60),
@@ -92,12 +78,134 @@ listener.addTargets('webappTarget', {
   }
 });
 
+// CloudWatch alarm for high CPU utilization
+// const highCpuAlarm = new cloudwatch.Alarm(stack, 'HighCpuAlarm', {
+//   metric: service.metricCpuUtilization(),
+//   threshold: 80, // 80% threshold
+//   evaluationPeriods: 1,
+//   datapointsToAlarm: 1,
+//   treatMissingData: cloudwatch.TreatMissingData.NOT_BREACHING,
+// });
+
+// CloudWatch alarm for low CPU utilization
+// const lowCpuAlarm = new cloudwatch.Alarm(stack, 'LowCpuAlarm', {
+//   metric: service.metricCpuUtilization(),
+//   threshold: 20, // 20% threshold
+//   evaluationPeriods: 1,
+//   datapointsToAlarm: 1,
+//   treatMissingData: cloudwatch.TreatMissingData.NOT_BREACHING,
+// });
+
+// Auto scaling based on CPU utilization
+// const scaling = service.autoScaleTaskCount({
+//   minCapacity: 1,
+//   maxCapacity: 10,
+// });
+
+// scaling.scaleOnMetric('HighCpuScaling', {
+//   metric: service.metricCpuUtilization(),
+//   scalingSteps: [
+//     { upper: 80, change: +1 },
+//     { lower: 20, change: -1 } // Scaling in when CPU utilization drops below 20%
+//   ],
+// });
+
 new cdk.CfnOutput(stack, 'webappALBDNS', {
   value: lb.loadBalancerDnsName,
 });
 
 app.synth();
 
+// part1 
+// import * as ec2 from 'aws-cdk-lib/aws-ec2';
+// import * as elbv2 from 'aws-cdk-lib/aws-elasticloadbalancingv2';
+// import * as cdk from 'aws-cdk-lib';
+// import { Cluster, ContainerImage, Ec2Service, Ec2TaskDefinition } from 'aws-cdk-lib/aws-ecs';
+// import { DatabaseInstance, DatabaseInstanceEngine } from 'aws-cdk-lib/aws-rds';
+// import { AutoScalingGroup } from 'aws-cdk-lib/aws-autoscaling';
+
+// const app = new cdk.App();
+// const stack = new cdk.Stack(app, 'MyWebApp');
+
+// const vpc = new ec2.Vpc(stack, 'webappVpc', {
+//   maxAzs: 2,
+//   subnetConfiguration: [
+//     {
+//       cidrMask: 24,
+//       name: 'public',
+//       subnetType: ec2.SubnetType.PUBLIC,
+//     },
+//     {
+//       cidrMask: 24,
+//       name: 'private',
+//       subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS,
+//     }
+//   ]
+// });
+
+// // Create EBS volume
+// const ebsVolume = ec2.BlockDeviceVolume.ebs(30, {
+//   deleteOnTermination: true, // Change as needed
+// });
+
+// // Create launch template for Auto Scaling Group
+// const launchTemplate = new ec2.LaunchTemplate(stack, 'webappLaunchTemplate', {
+//   blockDevices: [{
+//     deviceName: '/dev/xvdf', // Change device name as needed
+//     volume: ebsVolume,
+//   }],
+//   instanceType: ec2.InstanceType.of(ec2.InstanceClass.BURSTABLE3, ec2.InstanceSize.MICRO),
+//   machineImage: ec2.MachineImage.latestAmazonLinux()
+// });
+
+// const cluster = new Cluster(stack, 'webappCluster', { vpc });
+
+
+// const taskDefinition = new Ec2TaskDefinition(stack, 'webappTaskDef');
+// const container = taskDefinition.addContainer('webapp', {
+//   image: ContainerImage.fromRegistry("public.ecr.aws/z9z6i7v1/vishallecr1:latest"),
+//   memoryLimitMiB: 256,
+// });
+// container.addPortMappings({
+//   containerPort: 80,
+//   hostPort: 0,
+//   protocol: cdk.aws_ecs.Protocol.TCP
+// });
+
+// const service = new Ec2Service(stack, "webappService", {
+//   cluster,
+//   taskDefinition,
+//   desiredCount: 4,
+//   minHealthyPercent: 50, // Adjust as needed
+//   maxHealthyPercent: 200, // Adjust as needed
+//   serviceName: 'my-webapp-service', // Give a name to your ECS service
+// });
+
+// const lb = new elbv2.ApplicationLoadBalancer(stack, 'webappLB', {
+//   vpc,
+//   internetFacing: true
+// });
+
+// const listener = lb.addListener('webappListener', {
+//   port: 80,
+//   open: true
+// });
+
+// listener.addTargets('webappTarget', {
+//   port: 80,
+//   targets: [service],
+//   healthCheck: {
+//     interval: cdk.Duration.seconds(60),
+//     path: "/health",
+//     timeout: cdk.Duration.seconds(5),
+//   }
+// });
+
+// new cdk.CfnOutput(stack, 'webappALBDNS', {
+//   value: lb.loadBalancerDnsName,
+// });
+
+// app.synth();
 // S3 bucket source 
 
 
