@@ -8,7 +8,7 @@ import * as rds from 'aws-cdk-lib/aws-rds';
 
 
 const app = new cdk.App();
-const stack = new cdk.Stack(app, 'MyWebApp');
+const stack = new cdk.Stack(app, 'MyWebApp125');
 
 const vpc = new ec2.Vpc(stack, 'webappVpc', {
   maxAzs: 2,
@@ -65,15 +65,15 @@ const service = new ecs.Ec2Service(stack, "webappService", {
   desiredCount: 4
 });
 
-const rdsInstance = new rds.DatabaseInstance(stack, 'MyRDSInstance', {
-  engine: rds.DatabaseInstanceEngine.mysql({ version: rds.MysqlEngineVersion.VER_8_0 }),
-  instanceType: ec2.InstanceType.of(ec2.InstanceClass.BURSTABLE2, ec2.InstanceSize.SMALL),
-  vpc,
-  allocatedStorage: 20,
-  storageType: rds.StorageType.GP2,
-  credentials: rds.Credentials.fromGeneratedSecret('admin'), // Specify username as 'admin'
-  removalPolicy: cdk.RemovalPolicy.DESTROY, // Not recommended for production use
-});
+// const rdsInstance = new rds.DatabaseInstance(stack, 'MyRDSInstance', {
+//   engine: rds.DatabaseInstanceEngine.mysql({ version: rds.MysqlEngineVersion.VER_8_0 }),
+//   instanceType: ec2.InstanceType.of(ec2.InstanceClass.BURSTABLE2, ec2.InstanceSize.SMALL),
+//   vpc,
+//   allocatedStorage: 20,
+//   storageType: rds.StorageType.GP2,
+//   credentials: rds.Credentials.fromGeneratedSecret('admin'), // Specify username as 'admin'
+//   removalPolicy: cdk.RemovalPolicy.DESTROY, // Not recommended for production use
+// });
 
 
 const lb = new elbv2.ApplicationLoadBalancer(stack, 'webappLB', {
