@@ -6,7 +6,7 @@ import { AsgCapacityProvider, Ec2Service } from 'aws-cdk-lib/aws-ecs';
 import { AutoScalingGroup } from 'aws-cdk-lib/aws-autoscaling';
 
 const app = new cdk.App();
-const stack = new cdk.Stack(app, 'MyWebApp1214');
+const stack = new cdk.Stack(app, 'MyWebApp2323');
 
 // Create a cluster
 const vpc = new ec2.Vpc(stack, 'Vpc', { maxAzs: 2, subnetConfiguration: [
@@ -16,8 +16,6 @@ const vpc = new ec2.Vpc(stack, 'Vpc', { maxAzs: 2, subnetConfiguration: [
     subnetType: ec2.SubnetType.PUBLIC,
   }
 ] });
-
-// /home/linuxlite/ECS/package.json
 
 const cluster = new ecs.Cluster(stack, 'EcsClusters', { vpc });
 cluster.addCapacity('DefaultAutoScalingGroup', {
@@ -29,10 +27,10 @@ const ebsVolume = ec2.BlockDeviceVolume.ebs(30, {
   deleteOnTermination: true, // Change as needed
 });
 
-const role = new cdk.aws_iam.Role(stack, 'webApp1212Role', {
+const role = new cdk.aws_iam.Role(stack, 'webApp2323Role', {
   assumedBy: new cdk.aws_iam.ServicePrincipal('ec2.amazonaws.com'),
 });
-const launchTemplate = new ec2.LaunchTemplate(stack, 'webApp1212LaunchTemplate', {
+const launchTemplate = new ec2.LaunchTemplate(stack, 'webApp2323LaunchTemplate', {
   blockDevices: [{
     deviceName: '/dev/xvdf', // Change device name as needed
     volume: ebsVolume,
@@ -46,19 +44,19 @@ const launchTemplate = new ec2.LaunchTemplate(stack, 'webApp1212LaunchTemplate',
 // Create Task Definition
 const taskDefinition = new ecs.Ec2TaskDefinition(stack, 'TaskDefs');
 const container = taskDefinition.addContainer('web', {
-  image: ecs.ContainerImage.fromRegistry("public.ecr.aws/z9z6i7v1/newapp"),
+  image: ecs.ContainerImage.fromRegistry("amazon/amazon-ecs-sample"),
   memoryLimitMiB: 256,
 });
 
-const service = new Ec2Service(stack, "webApp1212Service", {
+const service = new Ec2Service(stack, "webApp2323Service", {
   cluster,
   taskDefinition,
   desiredCount: 4,
   minHealthyPercent: 100, // Adjust as needed
   maxHealthyPercent: 200, // Adjust as needed
-  serviceName: 'my-webApp1212-service', // Give a name to your ECS service
+  serviceName: 'my-webApp2323-service', // Give a name to your ECS service
 });
-let autoScalingGroup = new AutoScalingGroup(stack, 'webApp1212ASG', {
+let autoScalingGroup = new AutoScalingGroup(stack, 'webApp2323ASG', {
   vpc,
   desiredCapacity: 1,
   maxCapacity: 5,
@@ -82,7 +80,7 @@ cluster.autoscalingGroup?.scaleOnCpuUtilization('cpu_utilization',{
 })
 
 container.addPortMappings({
-  containerPort: 3000,
+  containerPort: 80,
   protocol: ecs.Protocol.TCP
 });
 
