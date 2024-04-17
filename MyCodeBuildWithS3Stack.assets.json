@@ -1,0 +1,19 @@
+{
+  "version": "36.0.0",
+  "files": {
+    "829d3b6cc0d49af9254eaa39445d69daa8c7b054b0a8fcd88da43e37ae1a268a": {
+      "source": {
+        "path": "MyCodeBuildWithS3Stack.template.json",
+        "packaging": "file"
+      },
+      "destinations": {
+        "current_account-current_region": {
+          "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}",
+          "objectKey": "829d3b6cc0d49af9254eaa39445d69daa8c7b054b0a8fcd88da43e37ae1a268a.json",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-${AWS::Region}"
+        }
+      }
+    }
+  },
+  "dockerImages": {}
+}

@@ -1,0 +1,107 @@
+{
+  "version": "36.0.0",
+  "artifacts": {
+    "MyCodeBuildWithS3Stack.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "MyCodeBuildWithS3Stack.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "MyCodeBuildWithS3Stack": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://unknown-account/unknown-region",
+      "properties": {
+        "templateFile": "MyCodeBuildWithS3Stack.template.json",
+        "terminationProtection": false,
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/829d3b6cc0d49af9254eaa39445d69daa8c7b054b0a8fcd88da43e37ae1a268a.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "MyCodeBuildWithS3Stack.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-lookup-role-${AWS::AccountId}-${AWS::Region}",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "MyCodeBuildWithS3Stack.assets"
+      ],
+      "metadata": {
+        "/MyCodeBuildWithS3Stack/MyCodeBuildProject/Role/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MyCodeBuildProjectRole7DABED3D"
+          }
+        ],
+        "/MyCodeBuildWithS3Stack/MyCodeBuildProject/Role/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MyCodeBuildProjectRoleDefaultPolicyF5CC0295"
+          }
+        ],
+        "/MyCodeBuildWithS3Stack/MyCodeBuildProject/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MyCodeBuildProject3BC5EAE2"
+          }
+        ],
+        "/MyCodeBuildWithS3Stack/MyCodeBuildProject/EventsRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MyCodeBuildProjectEventsRoleB88D0565"
+          }
+        ],
+        "/MyCodeBuildWithS3Stack/MyCodeBuildProject/EventsRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MyCodeBuildProjectEventsRoleDefaultPolicy5C1F3709"
+          }
+        ],
+        "/MyCodeBuildWithS3Stack/CodeBuildScheduleRule/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CodeBuildScheduleRule361D3008"
+          }
+        ],
+        "/MyCodeBuildWithS3Stack/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/MyCodeBuildWithS3Stack/CDKMetadata/Condition": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadataAvailable"
+          }
+        ],
+        "/MyCodeBuildWithS3Stack/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/MyCodeBuildWithS3Stack/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "MyCodeBuildWithS3Stack"
+    },
+    "Tree": {
+      "type": "cdk:tree",
+      "properties": {
+        "file": "tree.json"
+      }
+    }
+  }
+}
