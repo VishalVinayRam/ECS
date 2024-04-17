@@ -4,20 +4,19 @@ import elbv2 = require('aws-cdk-lib/aws-elasticloadbalancingv2');
 import cdk = require('aws-cdk-lib');
 import { AsgCapacityProvider, Ec2Service } from 'aws-cdk-lib/aws-ecs';
 import { AutoScalingGroup } from 'aws-cdk-lib/aws-autoscaling';
+import { tag } from './tags';
 
 const app = new cdk.App();
-const stack = new cdk.Stack(app, 'MyWebApp1214');
+const stack = new cdk.Stack(app, 'VishalECS123stack', {env: {
+  account: '093533531776',
+  region: 'ap-south-1'
+}})
 
 // Create a cluster
-const vpc = new ec2.Vpc(stack, 'Vpc', { maxAzs: 2, subnetConfiguration: [
-  {
-    cidrMask: 24,
-    name: 'public',
-    subnetType: ec2.SubnetType.PUBLIC,
-  }
-] });
-
-// /home/linuxlite/ECS/package.json
+const existingVpcId = "vpc-058ba42ea775d0f27"; // Replace with your VPC ID
+const vpc = ec2.Vpc.fromLookup(stack, 'Vpc', {
+  vpcId: existingVpcId
+}, );
 
 const cluster = new ecs.Cluster(stack, 'EcsClusters', { vpc });
 cluster.addCapacity('DefaultAutoScalingGroup', {
@@ -31,7 +30,9 @@ const ebsVolume = ec2.BlockDeviceVolume.ebs(30, {
 
 const role = new cdk.aws_iam.Role(stack, 'webApp1212Role', {
   assumedBy: new cdk.aws_iam.ServicePrincipal('ec2.amazonaws.com'),
+
 });
+
 const launchTemplate = new ec2.LaunchTemplate(stack, 'webApp1212LaunchTemplate', {
   blockDevices: [{
     deviceName: '/dev/xvdf', // Change device name as needed
@@ -78,7 +79,7 @@ cluster.addAsgCapacityProvider(capacity_provider)
 
 
 cluster.autoscalingGroup?.scaleOnCpuUtilization('cpu_utilization',{
-  targetUtilizationPercent: 5,
+  targetUtilizationPercent: 10,
 })
 
 container.addPortMappings({
@@ -100,7 +101,7 @@ listener.addTargets('ECS', {
   port: 8080,
   targets: [service.loadBalancerTarget({
     containerName: 'web',
-    containerPort: 80
+    containerPort: 3000
   })],
   // include health check (default is none)
   healthCheck: {
