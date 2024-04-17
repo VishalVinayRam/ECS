@@ -1,0 +1,424 @@
+{
+  "version": "36.0.0",
+  "artifacts": {
+    "VishalECS123stack.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "VishalECS123stack.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "VishalECS123stack": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://093533531776/ap-south-1",
+      "properties": {
+        "templateFile": "VishalECS123stack.template.json",
+        "terminationProtection": false,
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::093533531776:role/cdk-hnb659fds-deploy-role-093533531776-ap-south-1",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::093533531776:role/cdk-hnb659fds-cfn-exec-role-093533531776-ap-south-1",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-093533531776-ap-south-1/5140f2e54b29f5dbc8538861d1fa14470563a5439fbaaec7017927cc29c32255.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "VishalECS123stack.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::093533531776:role/cdk-hnb659fds-lookup-role-093533531776-ap-south-1",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "VishalECS123stack.assets"
+      ],
+      "metadata": {
+        "/VishalECS123stack/EcsClusters/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EcsClusters1162C47E"
+          }
+        ],
+        "/VishalECS123stack/EcsClusters/DefaultAutoScalingGroup": [
+          {
+            "type": "aws:cdk:warning",
+            "data": "desiredCapacity has been configured. Be aware this will reset the size of your AutoScalingGroup on every deployment. See https://github.com/aws/aws-cdk/issues/5215 [ack: @aws-cdk/aws-autoscaling:desiredCapacitySet]",
+            "trace": [
+              "Annotations.addMessage (/home/linuxlite/ECS/node_modules/aws-cdk-lib/core/lib/annotations.js:1:1608)",
+              "Annotations.addWarningV2 (/home/linuxlite/ECS/node_modules/aws-cdk-lib/core/lib/annotations.js:1:825)",
+              "new AutoScalingGroup (/home/linuxlite/ECS/node_modules/aws-cdk-lib/aws-autoscaling/lib/auto-scaling-group.js:1:16025)",
+              "Cluster.addCapacity (/home/linuxlite/ECS/node_modules/aws-cdk-lib/aws-ecs/lib/cluster.js:1:9173)",
+              "Object.<anonymous> (/home/linuxlite/ECS/bin/ecs.ts:22:9)",
+              "Module._compile (node:internal/modules/cjs/loader:1376:14)",
+              "Module.m._compile (/home/linuxlite/ECS/node_modules/ts-node/src/index.ts:1618:23)",
+              "Module._extensions..js (node:internal/modules/cjs/loader:1435:10)",
+              "Object.require.extensions.<computed> [as .ts] (/home/linuxlite/ECS/node_modules/ts-node/src/index.ts:1621:12)",
+              "Module.load (node:internal/modules/cjs/loader:1207:32)",
+              "Function.Module._load (node:internal/modules/cjs/loader:1023:12)",
+              "Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:135:12)",
+              "phase4 (/home/linuxlite/ECS/node_modules/ts-node/src/bin.ts:649:14)",
+              "bootstrap (/home/linuxlite/ECS/node_modules/ts-node/src/bin.ts:95:10)",
+              "main (/home/linuxlite/ECS/node_modules/ts-node/src/bin.ts:55:10)",
+              "Object.<anonymous> (/home/linuxlite/ECS/node_modules/ts-node/src/bin.ts:800:3)",
+              "Module._compile (node:internal/modules/cjs/loader:1376:14)",
+              "Object.Module._extensions..js (node:internal/modules/cjs/loader:1435:10)",
+              "Module.load (node:internal/modules/cjs/loader:1207:32)",
+              "Function.Module._load (node:internal/modules/cjs/loader:1023:12)",
+              "Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:135:12)",
+              "node:internal/main/run_main_module:28:49"
+            ]
+          }
+        ],
+        "/VishalECS123stack/EcsClusters/DefaultAutoScalingGroup/InstanceSecurityGroup/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EcsClustersDefaultAutoScalingGroupInstanceSecurityGroupF8EA10D2"
+          }
+        ],
+        "/VishalECS123stack/EcsClusters/DefaultAutoScalingGroup/InstanceSecurityGroup/from VishalECS123stackLBSecurityGroup41DC659F:32768-65535": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EcsClustersDefaultAutoScalingGroupInstanceSecurityGroupfromVishalECS123stackLBSecurityGroup41DC659F3276865535B88F4C3F"
+          }
+        ],
+        "/VishalECS123stack/EcsClusters/DefaultAutoScalingGroup/InstanceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EcsClustersDefaultAutoScalingGroupInstanceRole4BE62705"
+          }
+        ],
+        "/VishalECS123stack/EcsClusters/DefaultAutoScalingGroup/InstanceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EcsClustersDefaultAutoScalingGroupInstanceRoleDefaultPolicy2A194698"
+          }
+        ],
+        "/VishalECS123stack/EcsClusters/DefaultAutoScalingGroup/InstanceProfile": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EcsClustersDefaultAutoScalingGroupInstanceProfileF63E79AE"
+          }
+        ],
+        "/VishalECS123stack/EcsClusters/DefaultAutoScalingGroup/LaunchTemplate/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EcsClustersDefaultAutoScalingGroupLaunchTemplate278A5CC1"
+          }
+        ],
+        "/VishalECS123stack/EcsClusters/DefaultAutoScalingGroup/ASG": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EcsClustersDefaultAutoScalingGroupASG2950D1C8"
+          }
+        ],
+        "/VishalECS123stack/EcsClusters/DefaultAutoScalingGroup/DrainECSHook/Function/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EcsClustersDefaultAutoScalingGroupDrainECSHookFunctionServiceRoleDD94F100"
+          }
+        ],
+        "/VishalECS123stack/EcsClusters/DefaultAutoScalingGroup/DrainECSHook/Function/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EcsClustersDefaultAutoScalingGroupDrainECSHookFunctionServiceRoleDefaultPolicy1304DCF4"
+          }
+        ],
+        "/VishalECS123stack/EcsClusters/DefaultAutoScalingGroup/DrainECSHook/Function/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EcsClustersDefaultAutoScalingGroupDrainECSHookFunction3F91AA38"
+          }
+        ],
+        "/VishalECS123stack/EcsClusters/DefaultAutoScalingGroup/DrainECSHook/Function/AllowInvoke:VishalECS123stackEcsClustersDefaultAutoScalingGroupLifecycleHookDrainHookTopic530B2A74": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EcsClustersDefaultAutoScalingGroupDrainECSHookFunctionAllowInvokeVishalECS123stackEcsClustersDefaultAutoScalingGroupLifecycleHookDrainHookTopic530B2A74DE6B54F5"
+          }
+        ],
+        "/VishalECS123stack/EcsClusters/DefaultAutoScalingGroup/DrainECSHook/Function/Topic/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EcsClustersDefaultAutoScalingGroupDrainECSHookFunctionTopicAFA1FCB6"
+          }
+        ],
+        "/VishalECS123stack/EcsClusters/DefaultAutoScalingGroup/LifecycleHookDrainHook/Topic/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EcsClustersDefaultAutoScalingGroupLifecycleHookDrainHookTopicF5A4A08E"
+          }
+        ],
+        "/VishalECS123stack/EcsClusters/DefaultAutoScalingGroup/LifecycleHookDrainHook/Role/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EcsClustersDefaultAutoScalingGroupLifecycleHookDrainHookRoleB57897C0"
+          }
+        ],
+        "/VishalECS123stack/EcsClusters/DefaultAutoScalingGroup/LifecycleHookDrainHook/Role/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EcsClustersDefaultAutoScalingGroupLifecycleHookDrainHookRoleDefaultPolicy05388FD3"
+          }
+        ],
+        "/VishalECS123stack/EcsClusters/DefaultAutoScalingGroup/LifecycleHookDrainHook/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EcsClustersDefaultAutoScalingGroupLifecycleHookDrainHook42985A78"
+          }
+        ],
+        "/VishalECS123stack/EcsClusters/auto_scaling/InstanceSecurityGroup/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EcsClustersautoscalingInstanceSecurityGroupC2EE80CF"
+          }
+        ],
+        "/VishalECS123stack/EcsClusters/auto_scaling/InstanceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EcsClustersautoscalingInstanceRoleCF66DD6A"
+          }
+        ],
+        "/VishalECS123stack/EcsClusters/auto_scaling/InstanceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EcsClustersautoscalingInstanceRoleDefaultPolicy0E2A6375"
+          }
+        ],
+        "/VishalECS123stack/EcsClusters/auto_scaling/InstanceProfile": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EcsClustersautoscalingInstanceProfile5AA12B21"
+          }
+        ],
+        "/VishalECS123stack/EcsClusters/auto_scaling/LaunchTemplate/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EcsClustersautoscalingLaunchTemplateB8BDED7A"
+          }
+        ],
+        "/VishalECS123stack/EcsClusters/auto_scaling/ASG": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EcsClustersautoscalingASG75388105"
+          }
+        ],
+        "/VishalECS123stack/EcsClusters/auto_scaling/DrainECSHook/Function/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EcsClustersautoscalingDrainECSHookFunctionServiceRole53067837"
+          }
+        ],
+        "/VishalECS123stack/EcsClusters/auto_scaling/DrainECSHook/Function/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EcsClustersautoscalingDrainECSHookFunctionServiceRoleDefaultPolicy683153FA"
+          }
+        ],
+        "/VishalECS123stack/EcsClusters/auto_scaling/DrainECSHook/Function/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EcsClustersautoscalingDrainECSHookFunction37555A15"
+          }
+        ],
+        "/VishalECS123stack/EcsClusters/auto_scaling/DrainECSHook/Function/AllowInvoke:VishalECS123stackEcsClustersautoscalingLifecycleHookDrainHookTopicEAC7080D": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EcsClustersautoscalingDrainECSHookFunctionAllowInvokeVishalECS123stackEcsClustersautoscalingLifecycleHookDrainHookTopicEAC7080DBF078472"
+          }
+        ],
+        "/VishalECS123stack/EcsClusters/auto_scaling/DrainECSHook/Function/Topic/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EcsClustersautoscalingDrainECSHookFunctionTopicEF52145A"
+          }
+        ],
+        "/VishalECS123stack/EcsClusters/auto_scaling/LifecycleHookDrainHook/Topic/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EcsClustersautoscalingLifecycleHookDrainHookTopic959DE0A9"
+          }
+        ],
+        "/VishalECS123stack/EcsClusters/auto_scaling/LifecycleHookDrainHook/Role/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EcsClustersautoscalingLifecycleHookDrainHookRole5A6FFEAE"
+          }
+        ],
+        "/VishalECS123stack/EcsClusters/auto_scaling/LifecycleHookDrainHook/Role/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EcsClustersautoscalingLifecycleHookDrainHookRoleDefaultPolicyD8A60135"
+          }
+        ],
+        "/VishalECS123stack/EcsClusters/auto_scaling/LifecycleHookDrainHook/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EcsClustersautoscalingLifecycleHookDrainHook8BDE6AF8"
+          }
+        ],
+        "/VishalECS123stack/EcsClusters/EcsClusters": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EcsClustersC4C5A27C"
+          }
+        ],
+        "/VishalECS123stack/SsmParameterValue:--aws--service--ecs--optimized-ami--amazon-linux-2--recommended--image_id:C96584B6-F00A-464E-AD19-53AFF4B05118.Parameter": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SsmParameterValueawsserviceecsoptimizedamiamazonlinux2recommendedimageidC96584B6F00A464EAD1953AFF4B05118Parameter"
+          }
+        ],
+        "/VishalECS123stack/webApp1212Role/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "webApp1212Role2C2A87A4"
+          }
+        ],
+        "/VishalECS123stack/webApp1212Role/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "webApp1212RoleDefaultPolicy98536FC2"
+          }
+        ],
+        "/VishalECS123stack/webApp1212LaunchTemplate/Profile": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "webApp1212LaunchTemplateProfile5922489A"
+          }
+        ],
+        "/VishalECS123stack/webApp1212LaunchTemplate/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "webApp1212LaunchTemplateE6FB9A03"
+          }
+        ],
+        "/VishalECS123stack/SsmParameterValue:--aws--service--ami-amazon-linux-latest--amzn2-ami-kernel-5.10-hvm-x86_64-gp2:C96584B6-F00A-464E-AD19-53AFF4B05118.Parameter": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SsmParameterValueawsserviceamiamazonlinuxlatestamzn2amikernel510hvmx8664gp2C96584B6F00A464EAD1953AFF4B05118Parameter"
+          }
+        ],
+        "/VishalECS123stack/TaskDefs/TaskRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "TaskDefsTaskRoleD1284A49"
+          }
+        ],
+        "/VishalECS123stack/TaskDefs/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "TaskDefsC6791768"
+          }
+        ],
+        "/VishalECS123stack/webApp1212Service/Service": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "webApp1212Service9060AD2E"
+          }
+        ],
+        "/VishalECS123stack/webApp1212ASG": [
+          {
+            "type": "aws:cdk:warning",
+            "data": "desiredCapacity has been configured. Be aware this will reset the size of your AutoScalingGroup on every deployment. See https://github.com/aws/aws-cdk/issues/5215 [ack: @aws-cdk/aws-autoscaling:desiredCapacitySet]",
+            "trace": [
+              "Annotations.addMessage (/home/linuxlite/ECS/node_modules/aws-cdk-lib/core/lib/annotations.js:1:1608)",
+              "Annotations.addWarningV2 (/home/linuxlite/ECS/node_modules/aws-cdk-lib/core/lib/annotations.js:1:825)",
+              "new AutoScalingGroup (/home/linuxlite/ECS/node_modules/aws-cdk-lib/aws-autoscaling/lib/auto-scaling-group.js:1:16025)",
+              "Object.<anonymous> (/home/linuxlite/ECS/bin/ecs.ts:62:24)",
+              "Module._compile (node:internal/modules/cjs/loader:1376:14)",
+              "Module.m._compile (/home/linuxlite/ECS/node_modules/ts-node/src/index.ts:1618:23)",
+              "Module._extensions..js (node:internal/modules/cjs/loader:1435:10)",
+              "Object.require.extensions.<computed> [as .ts] (/home/linuxlite/ECS/node_modules/ts-node/src/index.ts:1621:12)",
+              "Module.load (node:internal/modules/cjs/loader:1207:32)",
+              "Function.Module._load (node:internal/modules/cjs/loader:1023:12)",
+              "Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:135:12)",
+              "phase4 (/home/linuxlite/ECS/node_modules/ts-node/src/bin.ts:649:14)",
+              "bootstrap (/home/linuxlite/ECS/node_modules/ts-node/src/bin.ts:95:10)",
+              "main (/home/linuxlite/ECS/node_modules/ts-node/src/bin.ts:55:10)",
+              "Object.<anonymous> (/home/linuxlite/ECS/node_modules/ts-node/src/bin.ts:800:3)",
+              "Module._compile (node:internal/modules/cjs/loader:1376:14)",
+              "Object.Module._extensions..js (node:internal/modules/cjs/loader:1435:10)",
+              "Module.load (node:internal/modules/cjs/loader:1207:32)",
+              "Function.Module._load (node:internal/modules/cjs/loader:1023:12)",
+              "Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:135:12)",
+              "node:internal/main/run_main_module:28:49"
+            ]
+          }
+        ],
+        "/VishalECS123stack/webApp1212ASG/ASG": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "webApp1212ASG72FE4FCE"
+          }
+        ],
+        "/VishalECS123stack/AsgCapacityProvider/AsgCapacityProvider": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AsgCapacityProvider760D11D9"
+          }
+        ],
+        "/VishalECS123stack/LB/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LB8A12904C"
+          }
+        ],
+        "/VishalECS123stack/LB/SecurityGroup/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LBSecurityGroup8A41EA2B"
+          }
+        ],
+        "/VishalECS123stack/LB/SecurityGroup/to VishalECS123stackEcsClustersDefaultAutoScalingGroupInstanceSecurityGroup8676B5B2:32768-65535": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LBSecurityGrouptoVishalECS123stackEcsClustersDefaultAutoScalingGroupInstanceSecurityGroup8676B5B232768655351FF4C517"
+          }
+        ],
+        "/VishalECS123stack/LB/PublicListener/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LBPublicListener6E1F3D94"
+          }
+        ],
+        "/VishalECS123stack/LB/PublicListener/ECSGroup/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LBPublicListenerECSGroupD6A32205"
+          }
+        ],
+        "/VishalECS123stack/LoadBalancerDNS": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LoadBalancerDNS"
+          }
+        ],
+        "/VishalECS123stack/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/VishalECS123stack/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/VishalECS123stack/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "VishalECS123stack"
+    },
+    "Tree": {
+      "type": "cdk:tree",
+      "properties": {
+        "file": "tree.json"
+      }
+    }
+  }
+}

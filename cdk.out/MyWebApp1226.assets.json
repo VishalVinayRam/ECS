@@ -1,0 +1,20 @@
+{
+  "version": "36.0.0",
+  "files": {
+    "8a4889b20e1792199a28ed5391674c09bc4d256a10a397eeeb20e4037a185cda": {
+      "source": {
+        "path": "MyWebApp1226.template.json",
+        "packaging": "file"
+      },
+      "destinations": {
+        "093533531776-ap-south-1": {
+          "bucketName": "cdk-hnb659fds-assets-093533531776-ap-south-1",
+          "objectKey": "8a4889b20e1792199a28ed5391674c09bc4d256a10a397eeeb20e4037a185cda.json",
+          "region": "ap-south-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::093533531776:role/cdk-hnb659fds-file-publishing-role-093533531776-ap-south-1"
+        }
+      }
+    }
+  },
+  "dockerImages": {}
+}

@@ -6,4 +6,4 @@ awscli-bundle
 aws
 # CDK asset staging directory
 .cdk.staging
-cdk.out
+
